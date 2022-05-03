@@ -19,35 +19,34 @@ const onClickAdd = () => {
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
   completeButton.addEventListener("click", () => {
-    // 押された完了ボタンのテキストを取得
-    const completeText = completeButton.parentNode.firstChild.textContent;
-
     // 押された完了ボタンの親タグ（li）を未完了リストから削除
-    const deleteTarget = completeButton.parentNode.parentNode;
-    document.getElementById("incomplete-list").removeChild(deleteTarget);
+    deleteFromIncompleteList(completeButton.parentNode.parentNode);
 
-    // divタグ生成
-    const div = document.createElement("div");
-    div.className = "list-row";
+    // 完了リストに追加する要素
+    const addTarget = completeButton.parentNode;
+
+    // TODO内容テキストを取得
+    const text = addTarget.firstElementChild.innerText;
+
+    // div以下を初期化
+    addTarget.textContent = null;
 
     // liタグ生成
     const li = document.createElement("li");
 
     const p = document.createElement("p");
-    p.innerText = completeText;
+    p.innerText = text;
 
     // button(戻る)タグ生成
-    const returnButton = document.createElement("button");
-    returnButton.innerText = "戻す";
-    returnButton.addEventListener("click", () => {
-      alert("戻す");
-    });
+    const backButton = document.createElement("button");
+    backButton.innerText = "戻す";
 
     // liタグの子要素に各要素を設定
-    div.appendChild(p);
-    div.appendChild(returnButton);
+    addTarget.appendChild(p);
+    addTarget.appendChild(backButton);
 
-    li.appendChild(div);
+    li.appendChild(addTarget);
+    console.log(li);
 
     // 完了のリストに追加
     document.getElementById("complete-list").appendChild(li);
@@ -58,8 +57,7 @@ const onClickAdd = () => {
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
     // 押された削除ボタンの親タグ（li）を未完了リストから削除
-    const deleteTarget = deleteButton.parentNode.parentNode;
-    document.getElementById("incomplete-list").removeChild(deleteTarget);
+    deleteFromIncompleteList(deleteButton.parentNode.parentNode);
   });
 
   // liタグの子要素に各要素を設定
@@ -71,6 +69,11 @@ const onClickAdd = () => {
 
   // 未完了のリストに追加
   document.getElementById("incomplete-list").appendChild(li);
+};
+
+// 未完了リストから指定の要素を削除
+const deleteFromIncompleteList = (target) => {
+  document.getElementById("incomplete-list").removeChild(target);
 };
 
 document
